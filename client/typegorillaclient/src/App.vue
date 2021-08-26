@@ -11,12 +11,16 @@
 </template>
 <style lang="scss">
 
+
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
-$color1: #262727;
-$color2: #665957;
-$color3: #C8B1A9;
-$color4: #FFFFFF;
+:root {
+  --color1: #262727;
+  --color2: #665957;
+  --color3: #C8B1A9;
+  --color4: #FFFFFF;
+}
 
 #app {
   font-family: 'Montserrat', sans-serif;
@@ -34,13 +38,13 @@ h1 {
   font-size: 2.4rem;
   text-align: left;
   padding-left: 1rem;
-  color: $color4;
+  color: var(--color4);
 }
 
 body {
   margin: 0px;
   padding: 2rem;
-  background-color: $color1;
+  background-color: var(--color1);
 }
 
 #nav {
@@ -49,18 +53,17 @@ body {
   width: 100%;
   a {
     padding: 0.5rem;
-    color: $color2;
+    color: var(--color2);
     border-radius: 0.25rem;
     transition: background-color 0.2s, color 0.2s;
     text-decoration: none;
     font-weight: bold;
   }
   a:hover {
-    background-color: $color2;
-    color: $color4;
+    background-color: var(--color2);
+    color: var(--color4);
     box-shadow: 2px 2px 2px rgba(black, 0.25);
   }
 }
-
 
 </style>
