@@ -3,9 +3,23 @@ import { Room } from "../entities/room";
 
 export interface IJoinEvent {
     user: PublicUser,
-    room_uuid: string,
+    name: string,
 }
 
-export interface IGetRoomsEvent {
+export interface ICreateRoomEvent {
+    user: PublicUser,
+    name: string,
+    max_users: number,
+}
+
+export interface IGotRoomsEvent {
     games: Room[],
+}
+
+export interface IClientTick {
+    current_index: number;
+}
+
+export interface IServerTick {
+    players: [{[uuid: number]: number}];
 }
