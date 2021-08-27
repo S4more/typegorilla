@@ -10,9 +10,6 @@
 <router-view/>
 </template>
 <style lang="scss">
-
-
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
 :root {
@@ -25,7 +22,7 @@
 .button {
   cursor: pointer;
   padding: 0.5rem;
-  color: var(--color2);
+  color: var(--color3);
   border-radius: 0.25rem;
   transition: background-color 0.2s, color 0.2s;
   text-decoration: none;
