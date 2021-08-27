@@ -1,12 +1,12 @@
 import { Socket } from "socket.io";
-import { IJoinEvent } from "./event_interface";
-import { Room } from "../entities/room";
+import { IJoinEvent, ICreateRoomEvent } from "./event_interface";
+import { Room, Response } from "../entities/room";
 import { User } from "../entities/user";
 
 export interface Event {
 }
 
-let users: User;
+let rooms: Room[] = []
 
 /**
  * Fires when an user joins a given room.
@@ -14,13 +14,33 @@ let users: User;
  * just joined the room.
  */
 export function joinEvent(socket: Socket, data: IJoinEvent) {
-    //TODO remove get rooms listener.
     console.log("Received join event.");
-    socket.join(data.room_uuid);
-    socket.to(data.room_uuid).emit("JoinEvent", data.user);
+
+    let room = rooms.find(x => x.name == data.name)
+    if (room != undefined) {
+        let user = new User(data.user.uuid, data.user.nickname, socket);
+        let response = room.addMember(user);
+        switch (response) {
+            case (Response.Full): {
+                socket.emit("ERROR", "full room");
+                break;
+            }
+            case (Response.Success): {
+                socket.emit("JoinedRoom");
+                socket.to(data.name).emit("NewUserJoinedRoom");
+            }
+        }
+    }
+}
+
+export function createRoomEvent(socket: Socket, data: ICreateRoomEvent) {
+    let room = new Room("1", data);
+    rooms.push(room);
+    let user = new User(data.user.uuid, data.user.nickname, socket);
+    room.addMember(user);
+    socket.emit("CreatedRoom");
 }
 
 export function getRoomsEvent(socket: Socket) {
-    //let room: Room = {uuid: "1", u
-    //socket.emit("GetRooms", );
+    socket.emit("GotRooms", rooms);
 }
