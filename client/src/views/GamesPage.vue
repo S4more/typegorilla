@@ -2,14 +2,14 @@
   <div class="GamesPage">
       <div class="buttonContainer">
         <span id="refresh" class="button" @click="refreshGames()">Refresh</span>
-        <span id="filter" class="button" @click="filterGames()">Filter</span>
+        <router-link id="newgame" class="button" to="/newgame">New +</router-link>
       </div>
       <div>
         <div class="game" v-for="game in games" :key="game.id">
         <span class="button">Join</span>
         <span class="name">{{ game.name }}</span>
         <span class="player_count">
-          {{game.players.length}} / {{ game.max_players }}
+          {{ game.players.length }} / {{ game.max_players }}
         </span>
       </div>
     </div>
@@ -17,19 +17,18 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import IGame from "../types/game"
+import ILobby from "../types/lobby"
 import Networking from "../networking"
 
 export default class GamesPage extends Vue {
   networking = Networking;
-
-  getGames() {
-    this.networking.getGames().then((games: IGame[]) => {
-      console.log(games)
+  refresh() {
+    this.networking.getGames().then((games: ILobby[]) => {
+      this.games = games;
     })
   }
 
-  games:IGame[] = [
+  games:ILobby[] = [
   {
     id: "wbqweuifb",
     players: [],
@@ -90,6 +89,10 @@ export default class GamesPage extends Vue {
   .player_count {
     margin-left:auto;
   }
+}
+
+#newgame {
+  margin-left:auto;
 }
 
 .buttonContainer {
