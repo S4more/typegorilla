@@ -106,3 +106,7 @@ dist
 ./server/node_modules
 
 ./client/typegorillaclient/node_modules
+
+./client/dist
+
+./server/build
