@@ -7,6 +7,7 @@ var server_event_1 = require("../events/server_event");
  * the sockets registered here.
  */
 function registerDefaultEvents(socket) {
-    socket.on("JoinEvent", function (data) { return server_event_1.joinEvent(socket, data); });
+    socket.on("JoinEvent", function (data) { return (0, server_event_1.joinEvent)(socket, data); });
+    socket.on("GetRoomsEvent", function () { return (0, server_event_1.getRoomsEvent)(socket); });
 }
 exports.registerDefaultEvents = registerDefaultEvents;

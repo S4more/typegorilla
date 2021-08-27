@@ -1,16 +1,22 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = require("http");
 var socket_io_1 = require("socket.io");
 var listener_1 = require("./listeners/listener");
-var httpServer = http_1.createServer();
-var io = new socket_io_1.Server(httpServer, {
-    path: "/my-custom-path",
-});
+var express_1 = __importDefault(require("express"));
+var app = (0, express_1.default)();
+var server = (0, http_1.createServer)(app);
+var io = new socket_io_1.Server(server);
 io.on("connection", function (socket) {
-    listener_1.registerDefaultEvents(socket);
+    (0, listener_1.registerDefaultEvents)(socket);
     //...
 });
-httpServer.listen(3000, function () {
-    console.log('listening on *:3000');
+app.get('/*', function (req, res) {
+    res.sendFile(req.path, { root: __dirname + "../../../client/dist" });
+});
+server.listen(8080, function () {
+    console.log('listening on *:8080');
 });
