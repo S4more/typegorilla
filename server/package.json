@@ -1,0 +1,23 @@
+{
+  "name": "typegorilla",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^4.1.3",
+    "socket.io-client": "^4.1.3"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.3",
+    "utf-8-validate": "^5.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^16.7.2",
+    "typescript": "^4.3.5"
+  }
+}
