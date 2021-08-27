@@ -1,6 +1,7 @@
 <template>
   <div class="GamesPage">
     <h1>Games</h1>
+    <button @click="getGames()"></button>
     <div class="game" v-for="game in games" :key="game.id">
       <span class="id">
         {{ game.name}}
@@ -13,8 +14,17 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import IGame from "../types/game"
+import Networking from "../networking"
 
 export default class GamesPage extends Vue {
+  networking = Networking;
+
+  getGames() {
+    this.networking.getGames().then((games: IGame[]) => {
+      console.log(games)
+    })
+  }
+
   games:IGame[] = [
   {
     id: "wbqweuifb",
@@ -60,7 +70,6 @@ export default class GamesPage extends Vue {
 
 </script>
 <style scoped lang="scss">
-
 .game {
   display: flex;
   padding: 0.5rem;
@@ -68,7 +77,5 @@ export default class GamesPage extends Vue {
   border-radius: 0.25rem;
   color: white;
   background-color: var(--color2);
-
 }
-
 </style>

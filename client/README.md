@@ -1,4 +1,4 @@
-# typegorillaclient
+# typegorilla client
 
 ## Project setup
 ```
