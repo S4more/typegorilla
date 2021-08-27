@@ -1,16 +1,14 @@
 <template>
   <div class="GamesPage">
     <h1>Games</h1>
-    <button @click="getGames()"></button>
+    <span class="button" @click="getGames()">Load Games</span>
+
     <div class="game" v-for="game in games" :key="game.id">
-      <span class="id">
-        {{ game.name}}
-        {{ game.max_players}}
-      </span>
+      {{ game.name }}
+      {{ game.max_players }}
     </div>
   </div>
 </template>
-
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import IGame from "../types/game"

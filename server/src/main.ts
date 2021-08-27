@@ -1,48 +1,21 @@
-import express, {Application} from 'express';
-import { createServer, Server } from 'http';
-import sio  from 'socket.io';
+import express, { Application} from 'express';
+import { createServer } from 'http';
+import { Server, Socket } from 'socket.io';
+const app = express();
+const server = createServer(app);
+const io = new Server(server);
 
-const server:Server = createServer(function(req, res){ 
-	
+app.get('/*', (req, res) => {
+  res.sendFile(req.path, {root: __dirname + "../../../client/dist"});
 });
 
+io.on('connection', (socket: Socket) => {
+  console.log("a user connected");
+  socket.on("message", function(message: any) {
+    console.log("message:" + message);
+  });
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-server.listen(8080);
-
-
-const PORT = "3000";
-const IP = "localhost"
-
-const socket = new WebSocket(`ws://${IP}:${PORT}`);
-
-socket.onopen = () => {
-	socket.send("test")
-};
-
-socket.onmessage = (data) => {
-  console.log(data);
-};
+server.listen(8080, () => {
+  console.log('listening on *:8080');
+});
