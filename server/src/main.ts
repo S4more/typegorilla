@@ -5,7 +5,7 @@ import { registerDefaultEvents } from "./listeners/listener";
 
 const httpServer = createServer();
 const io = new Server(httpServer, {
-    path: "/my-custom-path",
+    path: "",
 });
 
 
@@ -14,6 +14,6 @@ io.on("connection", (socket: Socket) => {
     //...
 });
 
-httpServer.listen(3000, () => {
-    console.log('listening on *:3000');
+httpServer.listen(8080, () => {
+    console.log('listening on *:8080');
 });
