@@ -1,4 +1,4 @@
-export default interface IGame {
+export default interface ILobby {
 	id: string,
 	players: [],
 	max_players: number,
