@@ -12,14 +12,16 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import IGame from "../types/game"
-import Networking from "../networking"
+import networking from "../networking"
+import { PublicRoom } from "../../../common";
 
 export default class GamesPage extends Vue {
-  networking = Networking;
+    networking = networking;
 
   getGames() {
-    this.networking.getGames().then((games: IGame[]) => {
-      console.log(games)
+      console.log("lul!");
+      this.networking.getGames().then((games: PublicRoom[]) => {
+        console.log(games)
     })
   }
 

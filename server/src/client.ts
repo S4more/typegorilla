@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
-import {Room} from "./entities/room";
-import {PublicUser} from "./entities/user";
+import { Room } from "./entities/room";
+//import {PublicUser} from "./entities/user";
 import { ICreateRoomEvent } from "./events/event_interface";
 
 //let allowed_events = [JoinEvent];
@@ -21,9 +21,9 @@ socket.on("connect", () => {
     //socket.emit("JoinRoom", ...);
     socket.on("JoinedRoom", () => console.log("Joined room."));
 
-    socket.on("NewUserJoinedRoom", (data: PublicUser) => {
-        console.log(data);
-    });
+//    socket.on("NewUserJoinedRoom", (data: PublicUser) => {
+//        console.log(data);
+//    });
 
     //socket.emit("GetRooms, ...);
     socket.on("GotRooms", (rooms: Room[]) => console.log(rooms));

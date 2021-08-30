@@ -1,13 +1,5 @@
 import {Socket} from "socket.io";
-
-/**
- * Contains all the public user information
- * that will be sent to other clients.
- */
-export interface PublicUser {
-    uuid: string,
-    nickname: string,
-}
+import { PublicUser } from "../../../common";
 
 export class User {
     readonly publicInfo: PublicUser;
