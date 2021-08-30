@@ -108,5 +108,5 @@ dist
 ./client/typegorillaclient/node_modules
 
 ./client/dist
-
 ./server/build
+./common/build

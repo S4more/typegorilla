@@ -22,6 +22,7 @@ function joinEvent(socket, data) {
             }
             case (room_1.Response.Success): {
                 socket.emit("JoinedRoom");
+                socket.to(data.name).emit("NewUserJoinedRoom");
             }
         }
     }
@@ -33,10 +34,10 @@ function createRoomEvent(socket, data) {
     var user = new user_1.User(data.user.uuid, data.user.nickname, socket);
     room.addMember(user);
     socket.emit("CreatedRoom");
-    console.log("Create room");
 }
 exports.createRoomEvent = createRoomEvent;
 function getRoomsEvent(socket) {
+    console.log("received.");
     socket.emit("GotRooms", rooms);
 }
 exports.getRoomsEvent = getRoomsEvent;

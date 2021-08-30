@@ -11,4 +11,12 @@ socket.on("connect", function () {
     socket.on("CreatedRoom", function () {
         console.log("Created room successfully");
     });
+    //socket.emit("JoinRoom", ...);
+    socket.on("JoinedRoom", function () { return console.log("Joined room."); });
+    //    socket.on("NewUserJoinedRoom", (data: PublicUser) => {
+    //        console.log(data);
+    //    });
+    //socket.emit("GetRooms, ...);
+    socket.on("GotRooms", function (rooms) { return console.log(rooms); });
+    socket.on("ERROR", function (data) { return console.log(data); });
 });

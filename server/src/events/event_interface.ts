@@ -1,4 +1,4 @@
-import { PublicUser } from "../entities/user";
+import { PublicUser } from "../../../common";
 import { Room } from "../entities/room";
 
 export interface IJoinEvent {

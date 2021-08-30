@@ -9,7 +9,7 @@
         <span class="button">Join</span>
         <span class="name">{{ game.name }}</span>
         <span class="player_count">
-          {{ game.players.length }} / {{ game.max_players }}
+          {{ game.users.length }} / {{ game.max_users }}
         </span>
       </div>
     </div>
@@ -17,57 +17,59 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+
 import ILobby from "../types/lobby"
 import Networking from "../networking"
+import { PublicRoom } from "../../../common";
 
 export default class GamesPage extends Vue {
   networking = Networking;
-  refresh() {
-    this.networking.getGames().then((games: ILobby[]) => {
+  refreshGames() {
+    this.networking.getGames().then((games: PublicRoom[]) => {
       this.games = games;
     })
   }
 
-  games:ILobby[] = [
+    games:PublicRoom[] = [
   {
     id: "wbqweuifb",
-    players: [],
-    max_players: 16,
+    users: [],
+    max_users: 16,
     active: true,
     name: "Test Game",
-    public: true
+    open: true
   },
   {
     id: "wbqweuifb",
-    players: [],
-    max_players: 16,
+    users: [],
+    max_users: 16,
     active: true,
     name: "Test Game",
-    public: true
+    open: true
   },
   {
     id: "wbqweuifb",
-    players: [],
-    max_players: 16,
+    users: [],
+    max_users: 16,
     active: true,
     name: "Test Game",
-    public: true
+    open: true
   },
   {
     id: "wbqweuifb",
-    players: [],
-    max_players: 16,
+    users: [],
+    max_users: 16,
     active: true,
     name: "Test Game",
-    public: true
+    open: true
   },
   {
     id: "gpiaeurbgiuebr",
-    players: [],
-    max_players: 16,
+    users: [],
+    max_users: 16,
     active: true,
     name: "Other Game",
-    public: true
+    open: true
   }]
 }
 
