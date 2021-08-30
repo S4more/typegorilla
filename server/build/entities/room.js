@@ -18,11 +18,21 @@ var Room = /** @class */ (function () {
     Room.prototype.addMember = function (user) {
         if (this.users.length < this.max_users) {
             this.users.push(user);
+            user.socket.join(this.uuid);
             return Response.Success;
         }
         else {
             return Response.Full;
         }
+    };
+    Room.prototype.getPublicInfo = function () {
+        return {
+            users: this.users.map(function (x) { return x.publicInfo; }),
+            open: this.open,
+            active: this.active,
+            name: this.name,
+            max_users: this.max_users
+        };
     };
     return Room;
 }());

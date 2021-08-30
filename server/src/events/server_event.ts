@@ -42,5 +42,6 @@ export function createRoomEvent(socket: Socket, data: ICreateRoomEvent) {
 }
 
 export function getRoomsEvent(socket: Socket) {
+    console.log("received.");
     socket.emit("GotRooms", rooms);
 }

@@ -1,4 +1,5 @@
 import { User } from "./user";
+import { PublicUser, PublicRoom } from "../../../common";
 import { ICreateRoomEvent } from "../events/event_interface";
 
 export enum Response {
@@ -29,4 +30,13 @@ export class Room {
         }
     }
 
+    getPublicInfo(): PublicRoom {
+        return {
+            users: this.users.map(x => x.publicInfo),
+            open: this.open,
+            active: this.active,
+            name: this.name,
+            max_users: this.max_users
+        }
+    }
 }

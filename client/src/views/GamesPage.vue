@@ -17,13 +17,15 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+
 import ILobby from "../types/lobby"
 import Networking from "../networking"
+import { PublicRoom } from "../../../common";
 
 export default class GamesPage extends Vue {
   networking = Networking;
   refresh() {
-    this.networking.getGames().then((games: ILobby[]) => {
+    this.networking.getGames().then((games: PublicRoom[]) => {
       this.games = games;
     })
   }
