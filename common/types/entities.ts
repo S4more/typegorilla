@@ -3,11 +3,12 @@
  * that will be sent to other clients.
  */
 export interface PublicUser {
-    uuid: string,
+    id: string,
     nickname: string,
 }
 
 export interface PublicRoom {
+    id: string,
     users: PublicUser[],
     open: boolean,
     active: boolean,
