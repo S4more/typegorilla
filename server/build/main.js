@@ -9,6 +9,8 @@ var listener_1 = require("./listeners/listener");
 var express_1 = __importDefault(require("express"));
 var app = (0, express_1.default)();
 var server = (0, http_1.createServer)(app);
+// Sorry Noah. This is cursed but it's the only solution
+// that I found.
 var io = new socket_io_1.Server(server);
 io.on("connection", function (socket) {
     (0, listener_1.registerDefaultEvents)(socket);
