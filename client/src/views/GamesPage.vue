@@ -6,7 +6,7 @@
       </div>
       <div>
         <div class="game" v-for="game in games" :key="game.id">
-        <span class="button">Join</span>
+        <span class="button" @click="joinGame(game.id)">Join</span>
         <span class="name">{{ game.name }}</span>
         <span class="player_count">
           {{ game.users.length }} / {{ game.max_users }}
@@ -30,47 +30,26 @@ export default class GamesPage extends Vue {
     })
   }
 
+    joinGame(id: string) {
+        this.networking.joinGame(id).then((room: PublicRoom) => {
+            console.log("Joined room: " + room);
+        });
+    }
+
     games:PublicRoom[] = [
   {
     id: "wbqweuifb",
     users: [],
-    max_users: 16,
     active: true,
-    name: "Test Game",
-    open: true
+    settings: {
+        max_users: 16,
+        name: "Test Game",
+        open: true,
+        word_count: 15,
+        time_limit: 60,
+      }
   },
-  {
-    id: "wbqweuifb",
-    users: [],
-    max_users: 16,
-    active: true,
-    name: "Test Game",
-    open: true
-  },
-  {
-    id: "wbqweuifb",
-    users: [],
-    max_users: 16,
-    active: true,
-    name: "Test Game",
-    open: true
-  },
-  {
-    id: "wbqweuifb",
-    users: [],
-    max_users: 16,
-    active: true,
-    name: "Test Game",
-    open: true
-  },
-  {
-    id: "gpiaeurbgiuebr",
-    users: [],
-    max_users: 16,
-    active: true,
-    name: "Other Game",
-    open: true
-  }]
+  ]
 }
 
 </script>

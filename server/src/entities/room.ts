@@ -1,6 +1,5 @@
 import { User } from "./user";
-import { PublicUser, PublicRoom } from "../../../common";
-import { ICreateRoomEvent } from "../events/event_interface";
+import { PublicRoom, RoomSettings } from "../../../common";
 
 export enum Response {
     Full,
@@ -10,33 +9,29 @@ export enum Response {
 
 export class Room {
     users: User[] = [];
-    open: boolean = true;
-    active: boolean = true;
-    name: string;
-    max_users: number;
+    settings: RoomSettings;
+    active: boolean = false;
 
-    constructor(readonly uuid: string, info: ICreateRoomEvent) {
-        this.name = info.name;
-        this.max_users = info.max_users;
+    constructor(readonly id: string, settings: RoomSettings) {
+        this.settings = settings;
     }
 
     addMember(user: User) {
-        if (this.users.length < this.max_users) {
+        if (this.users.length < this.settings.max_users) {
             this.users.push(user);
-            user.socket.join(this.uuid);
-            return Response.Success;
+            user.socket.join(this.id);
+            user.socket.emit("JoinedRoom", this.getPublicInfo());
         } else {
-            return Response.Full;
+            user.socket.emit("FullRoom");
         }
     }
 
     getPublicInfo(): PublicRoom {
         return {
+            id: this.id,
             users: this.users.map(x => x.publicInfo),
-            open: this.open,
+            settings: this.settings,
             active: this.active,
-            name: this.name,
-            max_users: this.max_users
         }
     }
 }

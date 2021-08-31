@@ -46,23 +46,29 @@
 				<option value="true">Public</option>
 			</select>		
 		</div>
+        <span class="button" @click="createRoom()">Create</span>
   </div>
 </template>
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import ILobby from "../types/lobby"
 import Networking from "../networking"
-import IGameSettings from '../types/gameSettings';
+import { RoomSettings } from "../../../common";
 
 export default class NewGame extends Vue {
   networking = Networking;
-	settings: IGameSettings = {
+    settings: RoomSettings = {
 		name:"", 
 		word_count: 50,
 		time_limit: 120,
-		max_players: 16, 
-		public: false,
+		max_users: 16, 
+		open: false,
 	}
+
+    createRoom() {
+        this.networking.createRoom(this.settings).then((room_id: string) => {
+            console.log("Created room. Id: " + room_id);
+        });
+    }
 }
 
 </script>

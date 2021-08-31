@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 var User = /** @class */ (function () {
-    function User(uuid, nickname, socket) {
+    function User(id, nickname, socket) {
         this.socket = socket;
-        this.publicInfo = { uuid: uuid, nickname: nickname };
+        this.publicInfo = { id: id, nickname: nickname };
     }
     return User;
 }());

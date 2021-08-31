@@ -1,16 +1,21 @@
 import { createServer } from "http";
-import { Server, Socket } from "socket.io";
+import { Server} from "socket.io";
 import { registerDefaultEvents } from "./listeners/listener";
+import { CustomServer, CustomSocket } from "../../common";
 import express from 'express';
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
+// Sorry Noah. This is cursed but it's the only solution
+// that I found.
+const io = <unknown>new Server(server) as CustomServer;
 
-io.on("connection", (socket: Socket) => {
+io.on("connection", (socket: CustomSocket) => {
     registerDefaultEvents(socket);
+
     //...
 });
+
 
 app.get('/*', (req, res) => {
     res.sendFile(req.path, {root: __dirname + "../../../client/dist"});

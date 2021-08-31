@@ -7,31 +7,28 @@ var Response;
     Response[Response["Success"] = 1] = "Success";
 })(Response = exports.Response || (exports.Response = {}));
 var Room = /** @class */ (function () {
-    function Room(uuid, info) {
-        this.uuid = uuid;
+    function Room(id, settings) {
+        this.id = id;
         this.users = [];
-        this.open = true;
-        this.active = true;
-        this.name = info.name;
-        this.max_users = info.max_users;
+        this.active = false;
+        this.settings = settings;
     }
     Room.prototype.addMember = function (user) {
-        if (this.users.length < this.max_users) {
+        if (this.users.length < this.settings.max_users) {
             this.users.push(user);
-            user.socket.join(this.uuid);
-            return Response.Success;
+            user.socket.join(this.id);
+            user.socket.emit("JoinedRoom", this.getPublicInfo());
         }
         else {
-            return Response.Full;
+            user.socket.emit("FullRoom");
         }
     };
     Room.prototype.getPublicInfo = function () {
         return {
+            id: this.id,
             users: this.users.map(function (x) { return x.publicInfo; }),
-            open: this.open,
+            settings: this.settings,
             active: this.active,
-            name: this.name,
-            max_users: this.max_users
         };
     };
     return Room;

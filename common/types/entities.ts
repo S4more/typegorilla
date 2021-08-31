@@ -10,8 +10,14 @@ export interface PublicUser {
 export interface PublicRoom {
     id: string,
     users: PublicUser[],
-    open: boolean,
     active: boolean,
+    settings: RoomSettings,
+}
+
+export interface RoomSettings {
     name: string,
+    word_count: number,
+    time_limit: number,
+    open: boolean,
     max_users: number;
 }

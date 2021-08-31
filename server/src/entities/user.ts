@@ -1,14 +1,13 @@
-import {Socket} from "socket.io";
-import { PublicUser } from "../../../common";
+import { PublicUser, CustomSocket } from "../../../common";
 
 export class User {
     readonly publicInfo: PublicUser;
     constructor(
-        uuid: string,
+        id: string,
         nickname: string,
-        public socket: Socket,
+        public socket: CustomSocket,
     ) {
-        this.publicInfo = {uuid, nickname};
+        this.publicInfo = {id, nickname};
     }
 
 }
