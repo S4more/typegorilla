@@ -9,7 +9,7 @@
         <span class="button" @click="joinGame(game.id)">Join</span>
         <span class="name">{{ game.name }}</span>
         <span class="player_count">
-          {{ game.users.length }} / {{ game.max_users }}
+          {{ game.users.length }} / {{ game.settings.max_users }}
         </span>
       </div>
     </div>

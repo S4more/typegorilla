@@ -23,16 +23,16 @@ class Networking {
     }
 
     async joinGame(id: string) : Promise<PublicRoom> {
-        this.socket.emit('JoinGame', id);
+        this.socket.emit('JoinRoom', id);
         return await new Promise(resolve => {
-            this.socket.once('JoinedGame', (room: PublicRoom) => resolve(room));
+            this.socket.once('JoinedRoom', (room: PublicRoom) => resolve(room));
         });
     }
 
-    async createRoom(settings: RoomSettings): Promise<string> {
+    async createRoom(settings: RoomSettings): Promise<PublicRoom> {
         this.socket.emit('CreateRoom', settings);
         return await new Promise(resolve => {
-            this.socket.once('CreatedRoom', (id: string) => resolve(id));
+            this.socket.once('CreatedRoom', (id: PublicRoom) => resolve(id));
         });
     }
 }

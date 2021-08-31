@@ -52,12 +52,12 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import Networking from "../networking"
-import { RoomSettings } from "../../../common";
+import { RoomSettings, PublicRoom } from "../../../common";
 
 export default class NewGame extends Vue {
   networking = Networking;
     settings: RoomSettings = {
-		name:"", 
+		name:"Room 1", 
 		word_count: 50,
 		time_limit: 120,
 		max_users: 16, 
@@ -65,8 +65,8 @@ export default class NewGame extends Vue {
 	}
 
     createRoom() {
-        this.networking.createRoom(this.settings).then((room_id: string) => {
-            console.log("Created room. Id: " + room_id);
+        this.networking.createRoom(this.settings).then((room: PublicRoom) => {
+            console.log("Created room. Object: " + JSON.stringify(room));
         });
     }
 }
