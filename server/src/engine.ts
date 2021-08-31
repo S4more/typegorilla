@@ -1,5 +1,5 @@
 import { Room } from "./entities/room";
-import { CustomSocket, RoomSettings } from "../../common";
+import { CustomServer, CustomSocket, RoomSettings } from "../../common";
 import { User } from "./entities/user";
 
 export class Engine {
@@ -34,6 +34,15 @@ export class Engine {
     getRooms(socket: CustomSocket) {
         socket.emit("GotRooms", this.rooms.map(x => x.getPublicInfo()));
     }
+
+    start(io: CustomServer) {
+        setInterval(() => {
+            this.rooms
+                .filter(room => room.active == true)
+                .forEach(room => room.sendTick(io));
+        }, 200);
+    }
+
 }
 
 let engine = new Engine();
