@@ -15,6 +15,11 @@ var routes = [
         path: '/about',
         name: 'About',
         component: function () { return import('../views/About.vue'); }
+    },
+    {
+        path: '/ingame',
+        name: 'InGame',
+        component: function () { return import('../views/InGame.vue'); }
     }
 ];
 var router = createRouter({

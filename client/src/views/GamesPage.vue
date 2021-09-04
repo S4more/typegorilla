@@ -2,11 +2,13 @@
   <div class="GamesPage">
       <div class="buttonContainer">
         <span id="refresh" class="button" @click="refreshGames()">Refresh</span>
+        <router-link class="button" to="/ingame">Play Game</router-link>
         <router-link id="newgame" class="button" to="/newgame">New +</router-link>
       </div>
       <div>
         <div class="game" v-for="game in games" :key="game.id">
         <span class="button" @click="joinGame(game.id)">Join</span>
+        
         <span class="name">{{ game.name }}</span>
         <span class="player_count">
           {{ game.users.length }} / {{ game.settings.max_users }}
@@ -31,9 +33,10 @@ export default class GamesPage extends Vue {
   }
 
     joinGame(id: string) {
-        this.networking.joinGame(id).then((room: PublicRoom) => {
-            console.log("Joined room: " + room);
-        });
+      
+      this.networking.joinGame(id).then((room: PublicRoom) => {
+        console.log("Joined room: " + room);
+      });
     }
 
     games:PublicRoom[] = [
