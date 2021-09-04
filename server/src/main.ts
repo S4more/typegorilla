@@ -2,6 +2,7 @@ import { createServer } from "http";
 import { Server} from "socket.io";
 import { registerDefaultEvents } from "./listeners/listener";
 import { CustomServer, CustomSocket } from "../../common";
+import { engine } from "./engine";
 import express from 'express';
 
 const app = express();
@@ -16,6 +17,7 @@ io.on("connection", (socket: CustomSocket) => {
     //...
 });
 
+engine.start(io);
 
 app.get('/*', (req, res) => {
     res.sendFile(req.path, {root: __dirname + "../../../client/dist"});

@@ -32,6 +32,14 @@ var Engine = /** @class */ (function () {
     Engine.prototype.getRooms = function (socket) {
         socket.emit("GotRooms", this.rooms.map(function (x) { return x.getPublicInfo(); }));
     };
+    Engine.prototype.start = function (io) {
+        var _this = this;
+        setInterval(function () {
+            _this.rooms
+                .filter(function (room) { return room.active == true; })
+                .forEach(function (room) { return room.sendTick(io); });
+        }, 200);
+    };
     return Engine;
 }());
 exports.Engine = Engine;

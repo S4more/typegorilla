@@ -1,18 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Room = exports.Response = void 0;
-var Response;
-(function (Response) {
-    Response[Response["Full"] = 0] = "Full";
-    Response[Response["Success"] = 1] = "Success";
-})(Response = exports.Response || (exports.Response = {}));
+exports.Room = void 0;
 var Room = /** @class */ (function () {
     function Room(id, settings) {
         this.id = id;
         this.users = [];
-        this.active = false;
+        this.active = true;
+        this.indexes = {};
         this.settings = settings;
     }
+    Room.prototype.localListener = function (user) {
+        var _this = this;
+        user.socket.on("Advance", function (index) { return _this.indexes[user.publicInfo.id] = index; });
+    };
     Room.prototype.addMember = function (user) {
         if (this.users.length < this.settings.max_users) {
             this.users.push(user);
@@ -30,6 +30,10 @@ var Room = /** @class */ (function () {
             settings: this.settings,
             active: this.active,
         };
+    };
+    Room.prototype.sendTick = function (io) {
+        console.log("[Room " + this.id + "]: GameTick emmited.");
+        io.to(this.id).emit("GameTick", this.indexes);
     };
     return Room;
 }());
