@@ -1,14 +1,13 @@
 <template>
   <div class="InGame">
     <input id="main_input" type="text" ref="textinput" v-model="current_input" onblur="this.focus()" autofocus>
-    <span>{{current_index}}</span>
     <div id="text_window">
       <span class="word typed_word" v-for="(word, i) in typed_words" :key="i">
         <span v-if="word != all_words[i]" class="wrong_word">
           {{ all_words[i] }}
         </span>
         <span v-else>
-          {{word}}
+          {{ word }}
         </span>
       </span>
       <span class="word left_word" v-for="(word, i) in words_left" :key="i">
@@ -34,32 +33,19 @@
 
 <script lang="ts">
 import { defineComponent } from "@vue/runtime-core";
+import words from "../words";
 
 export default defineComponent({
   name: "InGame",
-  
   data(){
     return {
       current_index: 0,
       current_input: "",
       typed_words: [] as string[],
 
-      all_words: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, \
-sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris\
-nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in\
-reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla\
-pariatur. Excepteur sint occaecat cupidatat non proident, sunt\
-in culpa qui officia deserunt mollit anim id est laborum.`.split(" "),
+      all_words: words.genWords(words.words, 20),
 
-      words_left: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, \
-sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris\
-nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in\
-reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla\
-pariatur. Excepteur sint occaecat cupidatat non proident, sunt\
-in culpa qui officia deserunt mollit anim id est laborum.`.split(" "),
-
+      words_left: [] as string[],
     }
   },
 
@@ -75,6 +61,8 @@ in culpa qui officia deserunt mollit anim id est laborum.`.split(" "),
   },
 
   mounted(){
+    this.words_left = this.all_words.slice();
+
     (this.$refs.textinput as HTMLInputElement).addEventListener("keydown", (event) => {
       if(event.key == "Backspace") {
         if(this.current_input == ""){
