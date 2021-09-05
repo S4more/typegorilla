@@ -84,6 +84,7 @@ export default defineComponent({
 <style scoped lang="scss">
 * {
   font-family:monospace;
+  font-size: 1.4rem;
 }
 .game {
   display: flex;
@@ -116,8 +117,6 @@ export default defineComponent({
   opacity: 0%;
 }
 
-
-
 .cursor {
   position: absolute;  
   color: var(--color4);
@@ -135,13 +134,17 @@ export default defineComponent({
   margin-left: auto;
   margin-right: auto;
 }
+
 .typed_word {
   color:var(--color4);
 }
+
 .left_word {
   color:var(--color3);
 }
+
 .wrong_word {
   color: red;
 }
+
 </style>
