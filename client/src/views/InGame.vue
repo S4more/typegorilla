@@ -1,25 +1,39 @@
 <template>
   <div class="InGame">
     <input id="main_input" type="text" ref="textinput" v-model="current_input" onblur="this.focus()" autofocus>
+    <span>{{current_index}}</span>
     <div id="text_window">
       <span class="word typed_word" v-for="(word, i) in typed_words" :key="i">
         <span v-if="word != all_words[i]" class="wrong_word">
           {{ all_words[i] }}
         </span>
         <span v-else>
+          {{word}}
+        </span>
+      </span>
+      <span class="word left_word" v-for="(word, i) in words_left" :key="i">
+        <span v-if="i == 0">
+          <span class="typed_word" v-if="word.indexOf(current_input) == 0">
+            {{ current_input }}
+          </span>
+          <span v-else class="wrong_word" >
+            {{ current_input }}
+          </span>
+          <span class="cursor">_</span>
+          <span class="left_word">
+            {{ word.slice(current_input.length, word.length) }}
+          </span>
+        </span>
+        <span v-else>
           {{ word }}
         </span>
       </span>
-      <span class="word left_word" v-for="word in words_left" :key="word">
-        {{ word }}
-      </span>
     </div>
-
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from "@vue/runtime-core";
+import { defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
   name: "InGame",
@@ -29,16 +43,17 @@ export default defineComponent({
       current_index: 0,
       current_input: "",
       typed_words: [] as string[],
-      all_words: `Lorem ipsum dolor sit amet, consectetur adipiscing elit,\
-sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\
+
+      all_words: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, \
+sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris\
 nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in\
 reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla\
 pariatur. Excepteur sint occaecat cupidatat non proident, sunt\
 in culpa qui officia deserunt mollit anim id est laborum.`.split(" "),
 
-      words_left: `Lorem ipsum dolor sit amet, consectetur adipiscing elit,\
-sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\
+      words_left: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, \
+sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris\
 nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in\
 reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla\
@@ -47,21 +62,41 @@ in culpa qui officia deserunt mollit anim id est laborum.`.split(" "),
 
     }
   },
+
   watch: {
     current_input: function(val) {
-      let current_word = this.all_words[this.current_index];
-      console.log(val);
       if(val[val.length -1 ] == " "){
-        this.typed_words.push(val.replace(" ", ''));
+        this.typed_words.push(val.replace(" ", ""));
         this.words_left.shift();
         this.current_index = this.typed_words.length;
         this.current_input = "";
       }
     }
   },
+
+  mounted(){
+    (this.$refs.textinput as HTMLInputElement).addEventListener("keydown", (event) => {
+      if(event.key == "Backspace") {
+        if(this.current_input == ""){
+          let lastWord = this.typed_words[this.typed_words.length - 1];
+          if(lastWord.length) {
+            this.current_input = lastWord + lastWord[lastWord.length - 1];
+          } else {
+            this.current_input = "";
+          }
+          this.words_left.unshift(this.all_words[this.typed_words.length -1]);
+          this.typed_words.pop();
+        }
+      }
+    })
+  }
 });
+
 </script>
 <style scoped lang="scss">
+* {
+  font-family:monospace;
+}
 .game {
   display: flex;
   margin: 0.25rem;
@@ -78,6 +113,7 @@ in culpa qui officia deserunt mollit anim id est laborum.`.split(" "),
   .player_count {
     margin-left:auto;
   }
+
 }
 
 .buttonContainer {
@@ -90,6 +126,13 @@ in culpa qui officia deserunt mollit anim id est laborum.`.split(" "),
 
 #main_input {
   opacity: 0%;
+}
+
+
+
+.cursor {
+  position: absolute;  
+  color: var(--color4);
 }
 
 .word {
