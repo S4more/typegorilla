@@ -86,65 +86,33 @@ export default defineComponent({
   font-family:monospace;
   font-size: 1.4rem;
 }
-.game {
-  display: flex;
-  margin: 0.25rem;
-  border-radius: 0.25rem;
-  color: white;
-  border: 2px solid var(--color2);
-  align-items: center;
-  box-shadow: 2px 2px 2px rgba(black, 0.5);
-
-  & > * {
-    margin-right:0.5rem
-  }
-
-  .player_count {
-    margin-left:auto;
-  }
-
-}
-
-.buttonContainer {
-  display: flex;
-    & > * {
-    margin-right:0.5rem
-  }
-  padding: 0.5rem;
-}
 
 #main_input {
   opacity: 0%;
 }
 
-.cursor {
-  position: absolute;  
-  color: var(--color4);
-}
-
-.word {
-  margin:0.25rem;
-}
-
-#text_window{
+#text_window {
   display: flex;
   max-width: 80vw;
   flex-wrap: wrap;
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
-}
-
-.typed_word {
-  color:var(--color4);
-}
-
-.left_word {
-  color:var(--color3);
-}
-
-.wrong_word {
+  .word {
+    margin:0.25rem;
+  }
+  .typed_word {
+    color:var(--color4);
+  }
+  .left_word {
+    color:var(--color3);
+  }
+  .wrong_word {
   color: red;
+  }
+  .cursor {
+    position: absolute;  
+    color: var(--color4);
+  }
 }
-
 </style>
