@@ -1,6 +1,9 @@
 <template>
   <div class="InGame">
-    <input id="main_input" type="text" ref="textinput" v-model="current_input" onblur="this.focus()" autofocus>
+    <input id="main_input" type="text" autocomplete="off" ref="textinput" v-model="current_input" onblur="this.focus()" autofocus>
+    <div id="wpm">
+      {{wpm}}
+    </div>
     <div id="text_window">
       <span class="word typed_word" v-for="(word, i) in typed_words" :key="i">
         <span v-if="word != all_words[i]" class="wrong_word">
@@ -39,6 +42,8 @@ export default defineComponent({
   name: "InGame",
   data(){
     return {
+      start_time: 0,
+      wpm:0,
       current_index: 0,
       current_input: "",
       typed_words: [] as string[],
@@ -51,21 +56,26 @@ export default defineComponent({
 
   watch: {
     current_input: function(val) {
+
+      if(!this.start_time){
+        this.start_time = Date.now();
+      }
       if(val[val.length -1 ] == " "){
         this.typed_words.push(val.replace(" ", ""));
         this.words_left.shift();
         this.current_index = this.typed_words.length;
         this.current_input = "";
+        let time_elapsed = (Date.now() - this.start_time) / 1000;
+        this.wpm = Math.round((this.typed_words.length / (time_elapsed / 60)) * 1000) / 1000;
       }
     }
   },
 
   mounted(){
     this.words_left = this.all_words.slice();
-
     (this.$refs.textinput as HTMLInputElement).addEventListener("keydown", (event) => {
       if(event.key == "Backspace") {
-        if(this.current_input == ""){
+        if(this.current_input == "") {
           let lastWord = this.typed_words[this.typed_words.length - 1];
           if(lastWord.length) {
             this.current_input = lastWord + lastWord[lastWord.length - 1];
@@ -114,5 +124,9 @@ export default defineComponent({
     position: absolute;  
     color: var(--color4);
   }
+}
+#wpm{
+  font-size: 2rem;
+  color: var(--color4);
 }
 </style>
