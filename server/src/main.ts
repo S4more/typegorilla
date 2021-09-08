@@ -3,7 +3,10 @@ import { Server} from "socket.io";
 import { registerDefaultEvents } from "./listeners/listener";
 import { CustomServer, CustomSocket } from "../../common";
 import { engine } from "./engine";
+import { select } from "./database/database"
 import express from 'express';
+
+select("*", "gorillaUser").then(x => console.table(x))
 
 const app = express();
 const server = createServer(app);
