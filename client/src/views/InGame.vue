@@ -5,30 +5,41 @@
       {{wpm}}
     </div>
     <div id="text_window">
-      <span class="word typed_word" v-for="(word, i) in typed_words" :key="i">
-        <span v-if="word != all_words[i]" class="wrong_word">
-          {{ all_words[i] }}
-        </span>
-        <span v-else>
+      <span class="word" v-for="(word, i) in all_words" :key="i">
+        <span v-if="i > typed_words.length">
           {{ word }}
         </span>
-      </span>
-      <span class="word left_word" v-for="(word, i) in words_left" :key="i">
-        <span v-if="i == 0">
-          <span class="typed_word" v-if="word.indexOf(current_input) == 0">
-            {{ current_input }}
+        <span v-else-if="i == typed_words.length" v-for="(letter, j) in all_words[i]" :key="j">
+          <span class="cursor" v-if="j == current_input.length">_</span>
+          <span class="wrong" v-if="letter != current_input[j] && current_input[j]">
+            {{ all_words[i][j] }}
           </span>
-          <span v-else class="wrong_word" >
-            {{ current_input }}
+          <span v-else-if="!current_input[j]">
+            {{ all_words[i][j] }}
           </span>
-          <span class="cursor">_</span>
-          <span class="left_word">
-            {{ word.slice(current_input.length, word.length) }}
+          <span v-else class="typed">
+            {{ letter }}
+          </span>
+          <span v-if="j == word.length - 1 && current_input.length > word.length" class="wrong">
+            {{ current_input.slice(word.length) }}
           </span>
         </span>
-        <span v-else>
-          {{ word }}
+
+        <span v-else class="letter" v-for="(letter, k) in word" :key="k">
+          <span class="wrong" v-if="typed_words[i][k] != letter">
+            {{ letter }}
+          </span>
+          <span v-else class="typed">
+            {{ letter }}
+          </span>
         </span>
+        <span v-if="typed_words[i]">
+          <span v-if="typed_words[i].length > word.length">
+            {{ typed_words[i].slice(word.length) }}
+          </span>
+        </span>
+
+        <span class="cursor" v-if="i == typed_words.length && current_input.length >= all_words[i].length">_</span>
       </span>
     </div>
   </div>
@@ -47,19 +58,18 @@ export default defineComponent({
       current_index: 0,
       current_input: "",
       typed_words: [] as string[],
-
-      all_words: words.genWords(words.words, 20),
-
       words_left: [] as string[],
+      total_char_length: 0,
+      all_words: words.genWords(words.words, 20),
     }
   },
 
   watch: {
     current_input: function(val) {
-
       if(!this.start_time){
         this.start_time = Date.now();
       }
+      
       if(val[val.length -1 ] == " "){
         this.typed_words.push(val.replace(" ", ""));
         this.words_left.shift();
@@ -72,6 +82,8 @@ export default defineComponent({
   },
 
   mounted(){
+    this.total_char_length = 0;
+    this.all_words.forEach(word => this.total_char_length += word.length);
     this.words_left = this.all_words.slice();
     (this.$refs.textinput as HTMLInputElement).addEventListener("keydown", (event) => {
       if(event.key == "Backspace") {
@@ -110,14 +122,15 @@ export default defineComponent({
   margin-right: auto;
   .word {
     margin:0.25rem;
+    color: var(--color3);
   }
-  .typed_word {
+  .typed {
     color:var(--color4);
   }
   .left_word {
     color:var(--color3);
   }
-  .wrong_word {
+  .wrong {
   color: red;
   }
   .cursor {
