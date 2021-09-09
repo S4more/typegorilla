@@ -1,4 +1,5 @@
 "use strict";
+/* eslint-disable */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -247,13 +248,19 @@ function addFriend(userId, friendId) {
 // Method getting the userId using a username
 function getUserId(username) {
     return __awaiter(this, void 0, void 0, function () {
-        var rowArray;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, select("userId", "gorillaUser", "username='" + username + "'")];
+        var rowArray, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, select("userId", "gorillaUser", "username='" + username + "'")];
                 case 1:
-                    rowArray = _a.sent();
+                    rowArray = _b.sent();
                     return [2 /*return*/, Number(rowArray[0].userid)];
+                case 2:
+                    _a = _b.sent();
+                    return [2 /*return*/, -1];
+                case 3: return [2 /*return*/];
             }
         });
     });

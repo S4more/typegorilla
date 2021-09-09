@@ -1,4 +1,7 @@
+/* eslint-disable */
+
 require('dotenv').config()
+
 const {Pool} = require('pg')
 const pool = new Pool({
     user: process.env.DATABASE_USER,
@@ -128,8 +131,13 @@ async function addFriend(userId, friendId){
 
 // Method getting the userId using a username
 async function getUserId(username){
-    const rowArray = await select("userId", "gorillaUser", `username='${username}'`)
-    return Number(rowArray[0].userid)
+    try {
+        const rowArray = await select("userId", "gorillaUser", `username='${username}'`)
+        return Number(rowArray[0].userid)
+    } catch {
+        return -1;
+    }
+
 }
 
 // creates friends in the database using userId's

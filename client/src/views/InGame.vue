@@ -59,6 +59,11 @@
 import { defineComponent } from "@vue/runtime-core";
 import words from "../words";
 
+/* eslint-disable */
+import  {getHighScore, select, getUserId, makeFriends, addUser } from "../../../server/src/database/database";
+
+const PORT = 5432;
+
 export default defineComponent({
   name: "InGame",
   data(){
@@ -100,6 +105,23 @@ export default defineComponent({
   },
 
   methods: {
+    async uploadScore(name:string, wpm:number) {
+      let new_wpm = wpm;
+      getUserId(name).then((id:number) => {
+        if( id == -1){
+          addUser(name, "password", new_wpm);
+        } else{
+          getHighScore(name).then((score:number) => {
+            if(score < new_wpm) {
+              addUser(name, "password", new_wpm);
+            } 
+          })
+        }
+      })
+
+      alert("score uploaded");
+    },
+
     gameOver(){
       this.game_over = true;
       this.end_time = Date.now() - this.start_time;
@@ -115,6 +137,10 @@ export default defineComponent({
       addEventListener("keydown", (event) => {
         if(event.key == "Tab") {
           this.restart();
+        }
+
+        if(event.key == "Enter") {
+          this.uploadScore((this.$refs.name_input as HTMLInputElement).value, this.final_wpm);
         }
       })
     },

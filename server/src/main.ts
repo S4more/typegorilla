@@ -3,7 +3,7 @@ import { Server} from "socket.io";
 import { registerDefaultEvents } from "./listeners/listener";
 import { CustomServer, CustomSocket } from "../../common";
 import { engine } from "./engine";
-import { select, getHighScore } from "./database/database"
+import { select, getHighScore, config } from "./database/database"
 import express from 'express';
 
 // select("*", "gorillaUser").then(x => console.table(x))
@@ -17,7 +17,7 @@ const io = <unknown>new Server(server) as CustomServer;
 
 io.on("connection", (socket: CustomSocket) => {
     registerDefaultEvents(socket);
-
+    
     //...
 });
 
