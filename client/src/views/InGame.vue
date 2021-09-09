@@ -1,9 +1,14 @@
 <template>
-  <div id="endScreen" v-if="gameOver">
+  <div id="endScreen" v-if="game_over">
     <div class="info">
-      <span class="wpm">Words per minute: {{ wpm }}</span>
-      <span class="time">Time: {{Math.floor((end_time/1000)/60)}}:{{ Math.floor(((end_time/1000) % 60)) }}</span>
-      <input type="text">
+      <span class="wpm">Words per minute: {{ Math.round(final_wpm * 100) / 100 }}</span> 
+      <span class="raw_wpm">Raw words per minute: {{ wpm }}</span>
+      <span class="accuracy">Accuracy: {{ Math.round(accuracy * 10000)/100 }} %</span>
+
+      <span class="time">Time: {{ Math.floor((end_time/1000)/60) }}:{{ Math.floor(((end_time/1000) % 60)) }}</span>
+
+      <label for="name">Name:</label>
+      <input type="text" name="name" :ref="name_input" autocomplete="off">
     </div>
   </div>
   <div class="InGame">
@@ -58,13 +63,15 @@ export default defineComponent({
   name: "InGame",
   data(){
     return {
-      end_time:0,
-      wpm:0,
-      gameOver:false,
+      final_wpm: 0,
+      accuracy: 0,
+      end_time: 0,
+      wpm: 0,
+      game_over:false,
       start_time: 0,
       current_index: 0,
       current_input: "",
-      typed_words: [] as string[],
+      typed_words:[] as string[],
       words_left: [] as string[],
       total_char_length: 0,
       all_words: words.genWords(words.words, 20),
@@ -86,29 +93,64 @@ export default defineComponent({
         this.wpm = Math.round((this.typed_words.length / (time_elapsed / 60)) * 1000) / 1000;
 
         if(this.words_left.length == 0) {
-          this.end_time = Date.now() - this.start_time;
-          this.gameOver = true;
-
-          (this.$refs.textinput as HTMLInputElement).removeEventListener("blur", this.reFocus);
-
-          addEventListener("keydown", (event) => {
-            if(event.key == "Tab") {
-              this.restart();
-            }
-          })
+          this.gameOver();
         }
       }
     }
   },
 
   methods: {
+    gameOver(){
+      this.game_over = true;
+      this.end_time = Date.now() - this.start_time;
+
+      this.accuracy = this.calculateAccuracy();
+      this.final_wpm = this.calculateFinalWPM(this.accuracy, this.wpm);
+
+      (this.$refs.textinput as HTMLInputElement).removeEventListener("blur", this.reFocus);
+      (this.$refs.textinput as HTMLInputElement).blur();
+      setTimeout(() => {
+        (this.$refs.name_input as HTMLInputElement).focus();
+      }, 100)
+      addEventListener("keydown", (event) => {
+        if(event.key == "Tab") {
+          this.restart();
+        }
+      })
+    },
+
+    calculateAccuracy () { 
+      let correct = 0;
+      let incorrect = 0;
+
+      this.all_words.forEach((word, i) => {
+        if(word == this.typed_words[i]){
+          correct += word.length;
+        } else { 
+          for(let j = 0; j <  word.length; j++) {
+            if (word[j] == this.typed_words[i][j]){
+              correct++;
+            } else {
+              incorrect++;
+            }
+          }
+        }
+      })
+      if(incorrect == 0) return 1;
+      else return correct / (incorrect + incorrect);
+    },
+
+    calculateFinalWPM(accuracy:number, wpm:number) {
+      return wpm * accuracy;
+    },
+
     reFocus(){
-      (this.$refs.textinput as HTMLInputElement).focus();      
+      (this.$refs.textinput as HTMLInputElement).focus();
     },
 
     restart(){
       (this.$refs.textinput as HTMLInputElement).addEventListener("blur", this.reFocus);
-      this.gameOver = false;
+      this.game_over = false;
       this.all_words = words.genWords(words.words, 20);
       this.typed_words = [];
       this.start_time = 0;
