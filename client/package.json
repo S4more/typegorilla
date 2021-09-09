@@ -11,7 +11,6 @@
     "@vue/cli-plugin-eslint": "^4.5.13",
     "dns": "^0.2.2",
     "net": "^1.0.2",
-    "pg-native": "^3.0.0",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.0-0",
