@@ -60,7 +60,7 @@ import { defineComponent } from "@vue/runtime-core";
 import words from "../words";
 
 /* eslint-disable */
-import  {getHighScore, select, getUserId, makeFriends, addUser } from "../../../server/src/database/database";
+import  {getHighScore, select, getUserId, makeFriends, addUser } from "../database";
 
 const PORT = 5432;
 
@@ -111,10 +111,10 @@ export default defineComponent({
         if( id == -1){
           addUser(name, "password", new_wpm);
         } else{
-          getHighScore(name).then((score:number) => {
-            if(score < new_wpm) {
+          getHighScore(name).then((score:number | undefined) => {
+            if(!score || score < new_wpm){
               addUser(name, "password", new_wpm);
-            } 
+            }
           })
         }
       })
