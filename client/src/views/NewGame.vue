@@ -56,7 +56,7 @@ import { RoomSettings, PublicRoom } from "../../../common";
 
 export default class NewGame extends Vue {
   networking = Networking;
-    settings: RoomSettings = {
+  settings: RoomSettings = {
 		name:"Room 1", 
 		word_count: 50,
 		time_limit: 120,
