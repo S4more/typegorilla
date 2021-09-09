@@ -1,6 +1,5 @@
 "use strict";
 exports.__esModule = true;
-exports.ClientEvent = void 0;
 var ClientEvent;
 (function (ClientEvent) {
     ClientEvent[ClientEvent["JoinGame"] = 0] = "JoinGame";

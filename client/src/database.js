@@ -1,8 +1,9 @@
 /* eslint-disable */
 
-require('dotenv').config()
-
+const dotenv = require('dotenv');
+dotenv.config();
 const {Pool} = require('pg')
+
 const pool = new Pool({
     user: process.env.DATABASE_USER,
     password: process.env.PASSWORD,

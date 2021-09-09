@@ -29,6 +29,8 @@ export interface ClientToServerEvents {
     JoinRoom: (name: string) => void;
     CreateRoom: (settings: RoomSettings) => void;
     Advance: (index: number) => void;
+
+    RegisterHighscore: (name: string, wpm: number) => void;
 }
 
 export interface ServerToClientEvents {
@@ -40,4 +42,5 @@ export interface ServerToClientEvents {
 
     FullRoom: () => void;
     NotFoundRoom: () => void;
+    RegisteredHighscore: () => void;
 }

@@ -8,7 +8,7 @@
       <span class="time">Time: {{ Math.floor((end_time/1000)/60) }}:{{ Math.floor(((end_time/1000) % 60)) }}</span>
 
       <label for="name">Name:</label>
-      <input type="text" name="name" :ref="name_input" autocomplete="off">
+      <input type="text" name="name" ref="name_input" autocomplete="off">
     </div>
   </div>
   <div class="InGame">
@@ -60,9 +60,7 @@ import { defineComponent } from "@vue/runtime-core";
 import words from "../words";
 
 /* eslint-disable */
-import  {getHighScore, select, getUserId, makeFriends, addUser } from "../database";
-
-const PORT = 5432;
+import networking from"../networking" ;
 
 export default defineComponent({
   name: "InGame",
@@ -106,20 +104,7 @@ export default defineComponent({
 
   methods: {
     async uploadScore(name:string, wpm:number) {
-      let new_wpm = wpm;
-      getUserId(name).then((id:number) => {
-        if( id == -1){
-          addUser(name, "password", new_wpm);
-        } else{
-          getHighScore(name).then((score:number | undefined) => {
-            if(!score || score < new_wpm){
-              addUser(name, "password", new_wpm);
-            }
-          })
-        }
-      })
-
-      alert("score uploaded");
+      networking.registerHigshcore(name, wpm);
     },
 
     gameOver(){

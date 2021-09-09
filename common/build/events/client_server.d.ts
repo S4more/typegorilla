@@ -22,6 +22,7 @@ export interface ClientToServerEvents {
     JoinRoom: (name: string) => void;
     CreateRoom: (settings: RoomSettings) => void;
     Advance: (index: number) => void;
+    RegisterHighscore: (name: string, wpm: number) => void;
 }
 export interface ServerToClientEvents {
     GotRooms: (rooms: PublicRoom[]) => void;
@@ -32,5 +33,6 @@ export interface ServerToClientEvents {
     }) => void;
     FullRoom: () => void;
     NotFoundRoom: () => void;
+    RegisteredHighscore: () => void;
 }
 //# sourceMappingURL=client_server.d.ts.map

@@ -35,6 +35,13 @@ class Networking {
             this.socket.once('CreatedRoom', (id: PublicRoom) => resolve(id));
         });
     }
+
+    async registerHigshcore(name: string, wpm: number): Promise<void> {
+        this.socket.emit('RegisterHighscore', name, wpm);
+        return await new Promise(resolve => {
+            this.socket.once('RegisteredHighscore', () => resolve());
+        })
+    }
 }
 
 export default new Networking;
