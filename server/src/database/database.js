@@ -144,6 +144,15 @@ async function makeFriends(username, friendUserName){
         console.log(e);
     }
 }
-module.exports = { config, select, getUserId, makeFriends, addUser }
+
+async function getHighScore(username){
+    try{
+        const high_score = await select("high_score", "gorillaUser", `username='${username}'`)
+        return Number(high_score[0].high_score);
+    } catch(e) {
+        console.log(e);
+    }
+}
+module.exports = { config, select, getUserId, makeFriends, addUser, getHighScore }
 // addUser("me", "pyself", 12314)
 // select("*", "gorillaUser").then((row)=> console.log(row))

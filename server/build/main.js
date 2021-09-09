@@ -9,7 +9,8 @@ var listener_1 = require("./listeners/listener");
 var engine_1 = require("./engine");
 var database_1 = require("./database/database");
 var express_1 = __importDefault(require("express"));
-(0, database_1.select)("*", "gorillaUser").then(function (x) { return console.table(x); });
+// select("*", "gorillaUser").then(x => console.table(x))
+(0, database_1.getHighScore)("me").then(function (highScore) { return console.log(highScore); });
 var app = (0, express_1.default)();
 var server = (0, http_1.createServer)(app);
 // Sorry Noah. This is cursed but it's the only solution

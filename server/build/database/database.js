@@ -288,6 +288,26 @@ function makeFriends(username, friendUserName) {
         });
     });
 }
-module.exports = { config: config, select: select, getUserId: getUserId, makeFriends: makeFriends, addUser: addUser };
+function getHighScore(username) {
+    return __awaiter(this, void 0, void 0, function () {
+        var high_score, e_8;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, select("high_score", "gorillaUser", "username='" + username + "'")];
+                case 1:
+                    high_score = _a.sent();
+                    return [2 /*return*/, Number(high_score[0].high_score)];
+                case 2:
+                    e_8 = _a.sent();
+                    console.log(e_8);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+module.exports = { config: config, select: select, getUserId: getUserId, makeFriends: makeFriends, addUser: addUser, getHighScore: getHighScore };
 // addUser("me", "pyself", 12314)
 // select("*", "gorillaUser").then((row)=> console.log(row))
