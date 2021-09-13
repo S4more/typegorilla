@@ -148,7 +148,7 @@ export default defineComponent({
         }
       })
       if(incorrect == 0) return 1;
-      else return correct / (incorrect + incorrect);
+      else return correct / (correct + incorrect);
     },
 
     calculateFinalWPM(accuracy:number, wpm:number) {

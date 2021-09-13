@@ -8,8 +8,6 @@ var socket_io_1 = require("socket.io");
 var listener_1 = require("./listeners/listener");
 var engine_1 = require("./engine");
 var express_1 = __importDefault(require("express"));
-// select("*", "gorillaUser").then(x => console.table(x))
-// getHighScore("me").then((highScore)=> console.log(highScore));
 var app = (0, express_1.default)();
 var server = (0, http_1.createServer)(app);
 // Sorry Noah. This is cursed but it's the only solution

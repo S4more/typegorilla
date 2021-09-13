@@ -137,7 +137,6 @@ async function getUserId(username){
     } catch {
         return -1;
     }
-
 }
 
 // creates friends in the database using userId's
@@ -153,6 +152,8 @@ async function makeFriends(username, friendUserName){
     }
 }
 
+
+// gets the high score from a user using the username
 async function getHighScore(username){
     try{
         const high_score = await select("high_score", "gorillaUser", `username='${username}'`)
@@ -162,5 +163,3 @@ async function getHighScore(username){
     }
 }
 module.exports = { config, select, getUserId, makeFriends, addUser, getHighScore }
-// addUser("me", "pyself", 12314)
-// select("*", "gorillaUser").then((row)=> console.log(row))

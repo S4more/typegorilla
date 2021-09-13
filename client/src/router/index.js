@@ -17,6 +17,11 @@ var routes = [
         component: function () { return import('../views/About.vue'); }
     },
     {
+        path: '/newgame',
+        name: 'NewGame',
+        component: function () { return import('../views/NewGame.vue'); }
+    },
+    {
         path: '/ingame',
         name: 'InGame',
         component: function () { return import('../views/InGame.vue'); }

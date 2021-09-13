@@ -36,9 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getHighScore = exports.addUser = exports.makeFriends = exports.getUserId = exports.select = void 0;
-var connection_1 = require("./connection");
-var tables_1 = require("./tables/tables");
+var connection_1 = require("../connection");
+var tables_1 = require("../tables/tables");
 // does a basic select statment in a table
 function select(columnName, table, condition) {
     if (condition === void 0) { condition = 'true'; }
@@ -67,7 +66,6 @@ function select(columnName, table, condition) {
         });
     });
 }
-exports.select = select;
 // Fills a userFriends table interface by using the output from a query
 function fillUserFriendsI(rows) {
     var fArray = [];
@@ -144,7 +142,6 @@ function addUser(userName, password, highScore) {
         });
     });
 }
-exports.addUser = addUser;
 // private method creating friends in the database using their userId's
 function addFriend(userId, friendId) {
     return __awaiter(this, void 0, void 0, function () {
@@ -196,21 +193,16 @@ function getUserId(username) {
                     return [4 /*yield*/, select(tables_1.GorillaUserColumns.userid, tables_1.TableNames.GorillaUser, "username='" + username + "'")];
                 case 1:
                     rowArray = _a.sent();
-                    console.log(!rowArray[0]);
-                    if (!rowArray[0]) {
-                        return [2 /*return*/, -1];
-                    }
                     return [2 /*return*/, Number(rowArray[0].userid)];
                 case 2:
                     e_4 = _a.sent();
                     console.log(e_4);
                     return [3 /*break*/, 3];
-                case 3: return [2 /*return*/, -1];
+                case 3: throw new Error('The user may not exist');
             }
         });
     });
 }
-exports.getUserId = getUserId;
 // creates friends in the database using userId's
 function makeFriends(username, friendUserName) {
     return __awaiter(this, void 0, void 0, function () {
@@ -243,7 +235,6 @@ function makeFriends(username, friendUserName) {
         });
     });
 }
-exports.makeFriends = makeFriends;
 // gets the high score from a user using the username
 function getHighScore(username) {
     return __awaiter(this, void 0, void 0, function () {
@@ -268,7 +259,6 @@ function getHighScore(username) {
         });
     });
 }
-exports.getHighScore = getHighScore;
 function removeUser(username) {
     return __awaiter(this, void 0, void 0, function () {
         var res, error_1;
@@ -315,3 +305,4 @@ function getFriends(username) {
         });
     });
 }
+select(tables_1.GorillaUserColumns.all, tables_1.TableNames.GorillaUser).then(console.table);

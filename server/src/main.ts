@@ -3,11 +3,10 @@ import { Server} from "socket.io";
 import { registerDefaultEvents } from "./listeners/listener";
 import { CustomServer, CustomSocket } from "../../common";
 import { engine } from "./engine";
-import { select, getHighScore, config } from "./database/database"
+import { select, getHighScore } from "./database/database"
+import { config } from './database/config/config';
 import express from 'express';
 
-// select("*", "gorillaUser").then(x => console.table(x))
-// getHighScore("me").then((highScore)=> console.log(highScore));
 
 const app = express();
 const server = createServer(app);
